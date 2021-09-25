@@ -1,6 +1,8 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-
+import MessageIcon from "@mui/icons-material/Message";
+import CallIcon from "@mui/icons-material/Call";
+import GroupsIcon from "@mui/icons-material/Groups";
 const useStyles = makeStyles(() => ({
   navStyle: {
     display: "inline-flex",
@@ -86,9 +88,15 @@ function MainChatLists() {
         </div>
         <div>
           <ul className={classes.navStyle}>
-            <li>message</li>
-            <li>call</li>
-            <li>groups</li>
+            <li>
+              <MessageIcon />
+            </li>
+            <li>
+              <CallIcon />
+            </li>
+            <li>
+              <GroupsIcon />
+            </li>
           </ul>
         </div>
       </div>

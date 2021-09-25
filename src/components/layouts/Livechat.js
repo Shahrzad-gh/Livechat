@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
   main: {
     width: "-webkit-fill-available",
     backgroundColor: "#becdcc",
-    height: "95vh",
+    height: "94.3vh",
     display: "flex",
     flexDirection: "row",
     //alignItems: "center",

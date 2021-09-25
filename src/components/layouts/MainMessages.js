@@ -2,6 +2,9 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import Message from "./Message";
 import { TextField, Button } from "@mui/material";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import CallIcon from "@mui/icons-material/Call";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 const useStyles = makeStyles({
   navStyle: {
     display: "inline-flex",
@@ -38,9 +41,10 @@ const useStyles = makeStyles({
     padding: "5px",
   },
   pvMess: {
-    height: "100vh",
+    height: "100%",
     borderRadius: "5px",
     backgroundColor: "#fff",
+    overflow: "scroll",
   },
   messBox: {
     height: "6vh",
@@ -51,6 +55,7 @@ const useStyles = makeStyles({
         margin: "5px",
         borderRadius: "5px",
         border: "none",
+        padding: "0 !important",
       },
     },
   },
@@ -80,9 +85,15 @@ function MainMessages() {
         </div>
         <div>
           <ul className={classes.navStyle}>
-            <li>videocall</li>
-            <li>voiceocall</li>
-            <li>more...</li>
+            <li>
+              <VideocamIcon />
+            </li>
+            <li>
+              <CallIcon />
+            </li>
+            <li>
+              <MoreHorizIcon />
+            </li>
           </ul>
         </div>
       </div>
@@ -91,8 +102,8 @@ function MainMessages() {
       </div>
       <div className={classes.messBox}>
         <form>
-          <TextField type="text" placeholder="write your message" />
-          <Button value="Send">Send</Button>
+          <input type="text" placeholder="write your message" />
+          <button value="Send">Send</button>
         </form>
       </div>
     </div>
