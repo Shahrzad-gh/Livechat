@@ -25,18 +25,14 @@ module.exports.signup = async (req, res) => {
 
 module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
-
   try {
-    const user = await User.login({
-      email,
-      password,
-    });
+    const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie("token", token, { httpOnly: false });
 
     res.status(201).json({ user: user._id });
   } catch (error) {
+    console.log(error);
     res.status(400).json(error);
   }
 };

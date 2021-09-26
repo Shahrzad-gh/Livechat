@@ -40,12 +40,19 @@ function Signin() {
     email: "",
     password: "",
   });
+
   function handleOnChange(e) {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
   }
+  const { email, password } = loginInfo;
+
   function handleOnSubmit(e) {
     e.preventDefault();
-    console.log("comp", loginInfo);
+    const loginData = {
+      email,
+      password,
+    };
+    console.log("comp", loginData);
     dispatch(login(loginInfo));
   }
 
