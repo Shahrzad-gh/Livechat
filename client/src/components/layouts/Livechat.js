@@ -29,6 +29,11 @@ const useStyles = makeStyles(() => ({
     flexDirection: "row",
     //alignItems: "center",
     justifyContent: "space-between",
+    // "@global": {
+    //   ":-webkit-scrollbar": {
+    //     display: "none",
+    //   },
+    // },
   },
 }));
 
