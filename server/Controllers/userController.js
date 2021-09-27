@@ -28,11 +28,10 @@ module.exports.signin = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
-    res.cookie("token", token, { httpOnly: false });
+    res.cookie("token", token, { httpOnly: false, maxAge });
 
     res.status(201).json({ user: user._id });
   } catch (error) {
-    console.log(error);
     res.status(400).json(error);
   }
 };
