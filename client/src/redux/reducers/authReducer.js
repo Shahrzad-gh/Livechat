@@ -2,8 +2,7 @@ import { authConstant } from "../actions/Types";
 
 const initialState = {
   auth: {
-    firstName: "",
-    lastName: "",
+    user: "",
   },
   loading: false,
   error: null,
@@ -15,7 +14,7 @@ function authReducer(state = initialState, action) {
       return (state = {
         auth: action.payload,
       });
-    case authConstant.SIGN_IN_SUCCESS:
+    case authConstant.SIGN_UP_FAILURE:
       return (state = {
         auth: action.payload,
       });
