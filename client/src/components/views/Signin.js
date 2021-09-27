@@ -2,8 +2,9 @@ import React, { useState } from "react";
 
 import { makeStyles } from "@mui/styles";
 import { TextField, Button } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/authAction";
+//import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   formStyle: {
@@ -35,11 +36,12 @@ const useStyles = makeStyles({
 function Signin() {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
   });
+
+  const auth = useSelector((state) => state.auth);
 
   function handleOnChange(e) {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
@@ -55,7 +57,6 @@ function Signin() {
     console.log("comp", loginData);
     dispatch(login(loginInfo));
   }
-
   return (
     <div>
       <form className={classes.formStyle} onSubmit={handleOnSubmit}>
@@ -80,6 +81,7 @@ function Signin() {
               onChange={handleOnChange}
               className={classes.inputStyle}
             />
+            {/* <Link to={{ pathname: "livechat", state: auth }}> */}
             <Button
               type="submit"
               variant="outlined"
@@ -87,6 +89,7 @@ function Signin() {
             >
               Login
             </Button>
+            {/* </Link> */}
           </div>
         </div>
       </form>

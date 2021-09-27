@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { TextField, Button } from "@mui/material";
 import { register } from "../../redux/actions/authAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+//import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   formStyle: {
@@ -42,6 +43,7 @@ function Signup() {
   });
 
   const { firstName, lastName, email, password } = newUser;
+  const auth = useSelector((state) => state.auth);
 
   function handleOnChange(e) {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
@@ -56,7 +58,6 @@ function Signup() {
     };
     dispatch(register(redisterData));
   }
-
   return (
     <div>
       <form className={classes.formStyle} onSubmit={handleOnSubmit}>
@@ -103,6 +104,7 @@ function Signup() {
               onChange={handleOnChange}
               className={classes.inputStyle}
             />
+            {/* <Link to={{ pathname: "/profile", state: auth }}> */}
             <Button
               variant="outlined"
               type="submit"
@@ -110,6 +112,7 @@ function Signup() {
             >
               Register
             </Button>
+            {/* </Link> */}
           </div>
         </div>
       </form>
