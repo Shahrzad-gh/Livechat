@@ -20,7 +20,6 @@ app.use(
     credentials: true,
   })
 );
-
 mongoose
   .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
