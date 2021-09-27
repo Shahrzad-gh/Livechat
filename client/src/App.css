@@ -1,7 +1,10 @@
+html,
+body {
+  height: 100%;
+}
 .App {
+  height: 100vh;
   text-align: center;
-  --webkit-scrolbar: {
-  }
 }
 .App-logo {
   height: 40vmin;
