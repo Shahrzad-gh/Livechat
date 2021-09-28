@@ -3,6 +3,8 @@ import { makeStyles } from "@mui/styles";
 import MainMessages from "./MainMessages";
 import MainNotifications from "./MainNotifications";
 import MainChatList from "./MainChatList";
+import authContext from "../../context/AuthContext";
+import { useContext } from "react";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -39,7 +41,7 @@ const useStyles = makeStyles(() => ({
 
 function Livechat() {
   const classes = useStyles();
-
+  const userInfo = useContext(authContext);
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -47,9 +49,9 @@ function Livechat() {
         <div>Create memorable talks</div>
       </div>
       <div className={classes.main}>
-        <MainChatList />
-        <MainMessages />
-        <MainNotifications />
+        <MainChatList user={userInfo.user} />
+        <MainMessages user={userInfo.user} />
+        <MainNotifications user={userInfo.user} />
       </div>
     </div>
   );
