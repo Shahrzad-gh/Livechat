@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { makeStyles } from "@mui/styles";
 import { TextField, Button } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/authAction";
 //import { Link } from "react-router-dom";
 
@@ -41,7 +41,7 @@ function Signin() {
     password: "",
   });
 
-  const auth = useSelector((state) => state.auth);
+  //const auth = useSelector((state) => state.auth);
 
   function handleOnChange(e) {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });

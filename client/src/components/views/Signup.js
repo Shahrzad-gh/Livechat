@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { TextField, Button } from "@mui/material";
 import { register } from "../../redux/actions/authAction";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 //import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -43,7 +43,7 @@ function Signup() {
   });
 
   const { firstName, lastName, email, password } = newUser;
-  const auth = useSelector((state) => state.auth);
+  //const auth = useSelector((state) => state.auth);
 
   function handleOnChange(e) {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
