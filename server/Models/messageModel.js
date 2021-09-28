@@ -2,21 +2,22 @@ const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema(
   {
-    user_name: {
+    conversationId: {
       type: String,
       required: true,
     },
-    user_avatar: {
-      type: String,
-      required: false,
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    message_text: {
+    text: {
       type: String,
       requied: true,
     },
   },
   {
-    Timestamps: {
+    timestamps: {
       createAt: true,
       updateAt: false,
     },
