@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import MessageIcon from "@mui/icons-material/Message";
 import CallIcon from "@mui/icons-material/Call";
 import GroupsIcon from "@mui/icons-material/Groups";
+import axios from "axios";
+import Conversation from "./Conversation";
+import MainMessages from "./MainMessages";
+
 const useStyles = makeStyles(() => ({
   navStyle: {
     display: "inline-flex",
@@ -69,9 +73,23 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
 }));
-function MainChatLists() {
+function MainChatLists({ user }) {
   const classes = useStyles();
+  const [conversationList, setConversationList] = useState([]);
+  const [currentChat, setcurrentChat] = useState(null);
 
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await axios.get(`/getconversation/${user._id}`);
+        setConversationList(res.data.conversation);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getConversations();
+  }, [user._id]);
+  console.log(currentChat);
   return (
     <div className={classes.info}>
       <div className={classes.pvnav}>
@@ -115,78 +133,13 @@ function MainChatLists() {
           <div>search</div>
         </div>
         <ul className={classes.pvList}>
-          <li>
-            <div className={classes.avatarStyle}>
-              <div>
-                {" "}
-                <div>
-                  <img
-                    alt="Pic"
-                    src="https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png"
-                    width={25}
-                    height={25}
-                    style={{ borderRadius: 50, border: "1px solid gray" }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div>Mina</div>
-                <div>Hi I wanna be ...</div>
-              </div>
+          {conversationList?.map((item) => (
+            <div key={item._id} onClick={() => setcurrentChat(item)}>
+              <li>
+                <Conversation conversation={item} currentUser={user} />
+              </li>
             </div>
-            <div>
-              <div> 11:24</div>
-              <div>2</div>
-            </div>
-          </li>
-          <li>
-            <div className={classes.avatarStyle}>
-              <div>
-                {" "}
-                <div>
-                  <img
-                    alt="Pic"
-                    src="https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png"
-                    width={25}
-                    height={25}
-                    style={{ borderRadius: 50, border: "1px solid gray" }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div>AmirHossein B</div>
-                <div>Hi I wanna be ...</div>
-              </div>
-            </div>
-            <div>
-              <div> 11:24</div>
-              <div>2</div>
-            </div>
-          </li>
-          <li>
-            <div className={classes.avatarStyle}>
-              <div>
-                {" "}
-                <div>
-                  <img
-                    alt="Pic"
-                    src="https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png"
-                    width={25}
-                    height={25}
-                    style={{ borderRadius: 50, border: "1px solid gray" }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div>Sherry Gh</div>
-                <div>Hi I wanna be ...</div>
-              </div>
-            </div>
-            <div>
-              <div> 11:24</div>
-              <div>2</div>
-            </div>
-          </li>
+          ))}
         </ul>
       </div>
     </div>

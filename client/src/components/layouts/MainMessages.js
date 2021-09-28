@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Message from "./Message";
 //import { TextField, Button } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import CallIcon from "@mui/icons-material/Call";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+
 const useStyles = makeStyles({
   navStyle: {
     display: "inline-flex",
@@ -61,45 +61,48 @@ const useStyles = makeStyles({
   },
 });
 
-function MainMessages() {
+function MainMessages({ conversationId }) {
   const classes = useStyles();
-
+  // const [conversation, setconversation] = useState([]);
+  // const [messages, setmessages] = useState([]);
+  console.log("main", conversationId);
   return (
     <div className={classes.box}>
-      <div className={classes.pvnav}>
-        <div className={classes.boxInfo}>
-          <div>
-            {" "}
-            <img
-              alt="Pic"
-              src="https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png"
-              width={50}
-              height={50}
-              style={{ borderRadius: 50, border: "1px solid gray" }}
-            />
+      {conversationId != null ? (
+        <div className={classes.pvnav}>
+          <div className={classes.boxInfo}>
+            <div>
+              <img
+                alt="Pic"
+                src="https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png"
+                width={50}
+                height={50}
+                style={{ borderRadius: 50, border: "1px solid gray" }}
+              />
+            </div>
+            <div>
+              <div>Name</div>
+              <div>lastseen</div>
+            </div>
           </div>
           <div>
-            <div>Name</div>
-            <div>lastseen</div>
+            <ul className={classes.navStyle}>
+              <li>
+                <VideocamIcon />
+              </li>
+              <li>
+                <CallIcon />
+              </li>
+              <li>
+                <MoreHorizIcon />
+              </li>
+            </ul>
           </div>
         </div>
-        <div>
-          <ul className={classes.navStyle}>
-            <li>
-              <VideocamIcon />
-            </li>
-            <li>
-              <CallIcon />
-            </li>
-            <li>
-              <MoreHorizIcon />
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className={classes.pvMess}>
-        <Message />
-      </div>
+      ) : (
+        <div className={classes.pvnav}>Start New chat</div>
+      )}
+      <div className={classes.pvMess}></div>
       <div className={classes.messBox}>
         <form>
           <input type="text" placeholder="write your message" />
