@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
 const userRoute = require("./Routers/userRouter");
+const conversationRoute = require("./Routers/conversationRouter");
+const messageRoute = require("./Routers/messageRouter");
+
 dotenv.config();
 
 const app = express();
@@ -34,3 +36,5 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(userRoute);
+app.use(conversationRoute);
+app.use(messageRoute);
