@@ -18,12 +18,12 @@ const useStyles = makeStyles({
   },
 });
 
-function Message() {
+function Message({ message }) {
   const classes = useStyles();
-
+  console.log(message);
   return (
     <div className={classes.root}>
-      <div>Lorem ipsum dolor sit amet.</div>
+      <div>{message?.text}</div>
       <div className={classes.sendInfo}>
         <div>&nbsp;2:45&nbsp;</div>
         <div>&#10003;</div>
