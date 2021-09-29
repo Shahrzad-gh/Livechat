@@ -73,7 +73,7 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
 }));
-function MainChatLists({ user }) {
+function MainChat({ currentUser }) {
   const classes = useStyles();
   const [conversationList, setConversationList] = useState([]);
   const [currentChat, setcurrentChat] = useState(null);
@@ -81,14 +81,14 @@ function MainChatLists({ user }) {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get(`/getconversation/${user._id}`);
+        const res = await axios.get(`/getconversation/${currentUser._id}`);
         setConversationList(res.data.conversation);
       } catch (error) {
         console.log(error);
       }
     };
     getConversations();
-  }, [user._id]);
+  }, [currentUser?._id]);
 
   return (
     <>
@@ -137,16 +137,16 @@ function MainChatLists({ user }) {
             {conversationList?.map((item) => (
               <div key={item._id} onClick={() => setcurrentChat(item)}>
                 <li>
-                  <Conversation conversation={item} currentUser={user} />
+                  <Conversation conversation={item} currentUser={currentUser} />
                 </li>
               </div>
             ))}
           </ul>
         </div>
       </div>
-      <MainMessages conversation={currentChat} />
+      <MainMessages currentUser={currentUser} conversation={currentChat} />
     </>
   );
 }
 
-export default MainChatLists;
+export default MainChat;

@@ -48,8 +48,8 @@ function Livechat() {
         <div>Create memorable talks</div>
       </div>
       <div className={classes.main}>
-        <MainChat user={userInfo.user} />
-        <MainNotifications user={userInfo.user} />
+        <MainChat currentUser={userInfo.user} />
+        <MainNotifications currentUser={userInfo.user} />
       </div>
     </div>
   );
