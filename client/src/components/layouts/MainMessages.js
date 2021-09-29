@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 //import { TextField, Button } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import CallIcon from "@mui/icons-material/Call";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-
+import axios from "axios";
+import Message from "./Message";
 const useStyles = makeStyles({
   navStyle: {
     display: "inline-flex",
@@ -61,14 +62,24 @@ const useStyles = makeStyles({
   },
 });
 
-function MainMessages({ conversationId }) {
+function MainMessages({ conversation }) {
   const classes = useStyles();
-  // const [conversation, setconversation] = useState([]);
-  // const [messages, setmessages] = useState([]);
-  console.log("main", conversationId);
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const res = await axios.get(`/getmessage/${conversation?._id}`);
+        setMessages(res.data.messages);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMessages();
+  }, [conversation?._id]);
+
   return (
     <div className={classes.box}>
-      {conversationId != null ? (
+      {conversation != null ? (
         <div className={classes.pvnav}>
           <div className={classes.boxInfo}>
             <div>
@@ -102,7 +113,11 @@ function MainMessages({ conversationId }) {
       ) : (
         <div className={classes.pvnav}>Start New chat</div>
       )}
-      <div className={classes.pvMess}></div>
+      <div className={classes.pvMess}>
+        {messages?.map((item) => (
+          <Message key={item._id} message={item} />
+        ))}
+      </div>
       <div className={classes.messBox}>
         <form>
           <input type="text" placeholder="write your message" />
