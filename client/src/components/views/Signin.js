@@ -54,8 +54,7 @@ function Signin() {
       email,
       password,
     };
-    console.log("comp", loginData);
-    dispatch(login(loginInfo));
+    dispatch(login(loginData));
   }
   return (
     <div>
