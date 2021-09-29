@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@mui/styles";
 //import { TextField, Button } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -6,6 +6,7 @@ import CallIcon from "@mui/icons-material/Call";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import axios from "axios";
 import Message from "./Message";
+import { Button, TextField } from "@mui/material";
 const useStyles = makeStyles({
   navStyle: {
     display: "inline-flex",
@@ -67,13 +68,14 @@ const useStyles = makeStyles({
 function MainMessages({ currentUser, conversation }) {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
+  const scrollRef = useRef();
 
   useEffect(() => {
     const getMessages = async () => {
       try {
         const res = await axios.get(`/getmessage/${conversation?._id}`);
-        setMessages(...messages, res.data.messages);
+        setMessages(res.data.messages);
       } catch (error) {
         console.log(error);
       }
@@ -81,7 +83,9 @@ function MainMessages({ currentUser, conversation }) {
     getMessages();
   }, [conversation?._id]);
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+
     const data = {
       conversationId: conversation._id,
       senderId: currentUser._id,
@@ -89,14 +93,20 @@ function MainMessages({ currentUser, conversation }) {
     };
     try {
       const res = await axios.post("/addmessage", data);
-      console.log(res.data.messages);
+      setMessages([...messages, res.data.message]);
+      setText("");
     } catch (error) {
       console.log(error);
     }
   };
+
   const handleText = (e) => {
     setText(e.target.value);
   };
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   return (
     <div className={classes.box}>
       {conversation != null ? (
@@ -135,21 +145,26 @@ function MainMessages({ currentUser, conversation }) {
       )}
       <div className={classes.pvMess}>
         {messages?.map((item) => (
+          // <div ref={scrollRef}>
           <Message
             key={item._id}
             message={item}
             own={currentUser._id === item.senderId}
           />
+          // </div>
         ))}
       </div>
       <div className={classes.messBox}>
         <form onSubmit={handleSendMessage}>
-          <input
+          <TextField
             type="text"
+            value={text}
             placeholder="write your message"
             onChange={handleText}
           />
-          <button value="Send">Send</button>
+          <Button type="submit" value="Send">
+            Send
+          </Button>
         </form>
       </div>
     </div>
