@@ -1,8 +1,7 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import MainMessages from "./MainMessages";
 import MainNotifications from "./MainNotifications";
-import MainChatList from "./MainChatList";
+import MainChat from "./MainChat";
 import authContext from "../../context/AuthContext";
 import { useContext } from "react";
 
@@ -49,8 +48,7 @@ function Livechat() {
         <div>Create memorable talks</div>
       </div>
       <div className={classes.main}>
-        <MainChatList user={userInfo.user} />
-        <MainMessages user={userInfo.user} />
+        <MainChat user={userInfo.user} />
         <MainNotifications user={userInfo.user} />
       </div>
     </div>
