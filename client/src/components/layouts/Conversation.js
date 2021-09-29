@@ -71,8 +71,10 @@ const useStyles = makeStyles(() => ({
 function Conversation({ conversation, currentUser }) {
   const classes = useStyles();
   const [user, setUser] = useState("");
+
   const defaultProfilePic =
     "https://www.senertec.de/wp-content/uploads/2020/04/blank-profile-picture-973460_1280-600x600.png";
+
   useEffect(() => {
     const friendId = conversation.members.find(
       (item) => item !== currentUser._id
@@ -84,6 +86,7 @@ function Conversation({ conversation, currentUser }) {
     };
     getUser();
   }, [conversation.members, currentUser]);
+
   return (
     <div>
       <div className={classes.avatarStyle}>
