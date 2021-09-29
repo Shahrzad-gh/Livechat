@@ -44,8 +44,10 @@ const useStyles = makeStyles({
   pvMess: {
     height: "100%",
     borderRadius: "5px",
-    backgroundColor: "#fff",
+    backgroundColor: "#3b6e68",
     overflow: "scroll",
+    display: "flex",
+    flexDirection: "column",
   },
   messBox: {
     height: "6vh",
@@ -62,14 +64,16 @@ const useStyles = makeStyles({
   },
 });
 
-function MainMessages({ conversation }) {
+function MainMessages({ currentUser, conversation }) {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
+  const [text, setText] = useState();
+
   useEffect(() => {
     const getMessages = async () => {
       try {
         const res = await axios.get(`/getmessage/${conversation?._id}`);
-        setMessages(res.data.messages);
+        setMessages(...messages, res.data.messages);
       } catch (error) {
         console.log(error);
       }
@@ -77,6 +81,22 @@ function MainMessages({ conversation }) {
     getMessages();
   }, [conversation?._id]);
 
+  const handleSendMessage = async () => {
+    const data = {
+      conversationId: conversation._id,
+      senderId: currentUser._id,
+      text,
+    };
+    try {
+      const res = await axios.post("/addmessage", data);
+      console.log(res.data.messages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleText = (e) => {
+    setText(e.target.value);
+  };
   return (
     <div className={classes.box}>
       {conversation != null ? (
@@ -115,12 +135,20 @@ function MainMessages({ conversation }) {
       )}
       <div className={classes.pvMess}>
         {messages?.map((item) => (
-          <Message key={item._id} message={item} />
+          <Message
+            key={item._id}
+            message={item}
+            own={currentUser._id === item.senderId}
+          />
         ))}
       </div>
       <div className={classes.messBox}>
-        <form>
-          <input type="text" placeholder="write your message" />
+        <form onSubmit={handleSendMessage}>
+          <input
+            type="text"
+            placeholder="write your message"
+            onChange={handleText}
+          />
           <button value="Send">Send</button>
         </form>
       </div>
