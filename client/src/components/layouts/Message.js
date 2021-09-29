@@ -1,8 +1,10 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
+import CheckIcon from "@mui/icons-material/Check";
+import moment from "moment";
 
 const useStyles = makeStyles({
-  root: {
+  ownRoot: {
     height: "auto",
     display: "flex",
     alignItems: " center",
@@ -11,6 +13,17 @@ const useStyles = makeStyles({
     width: "max-content",
     padding: 5,
     margin: 5,
+    placeSelf: "flex-end",
+  },
+  messageRoot: {
+    height: "auto",
+    alignItems: " center",
+    backgroundColor: "#fff",
+    borderRadius: "5px",
+    width: "max-content",
+    padding: 5,
+    margin: 5,
+    placeSelf: "flex-start",
   },
   sendInfo: {
     display: "flex",
@@ -18,15 +31,15 @@ const useStyles = makeStyles({
   },
 });
 
-function Message({ message }) {
+function Message({ own, message }) {
   const classes = useStyles();
-  console.log(message);
+
   return (
-    <div className={classes.root}>
+    <div className={own ? classes.ownRoot : classes.messageRoot}>
       <div>{message?.text}</div>
       <div className={classes.sendInfo}>
-        <div>&nbsp;2:45&nbsp;</div>
-        <div>&#10003;</div>
+        <div>{moment(message.createdAt).calendar()}</div>
+        <div>{own ? <CheckIcon /> : null}</div>
       </div>
     </div>
   );
