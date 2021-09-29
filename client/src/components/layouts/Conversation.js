@@ -88,7 +88,7 @@ function Conversation({ conversation, currentUser }) {
   }, [conversation.members, currentUser]);
 
   return (
-    <div>
+    <>
       <div className={classes.avatarStyle}>
         <div>
           <div>
@@ -112,7 +112,7 @@ function Conversation({ conversation, currentUser }) {
         <div> 11:24</div>
         <div>2</div>
       </div>
-    </div>
+    </>
   );
 }
 
