@@ -6,7 +6,6 @@ export const register = (data) => {
     let res;
     try {
       res = await axios.post("register", data);
-      console.log(res.data);
       dispatch({
         type: authConstant.SIGN_UP_SUCCESS,
         payload: res.data,
