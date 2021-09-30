@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { makeStyles } from "@mui/styles";
 import MainNotifications from "./MainNotifications";
 import MainChat from "./MainChat";
 import authContext from "../../context/AuthContext";
 import { useContext } from "react";
+import { io } from "socket.io-client";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,6 +42,20 @@ const useStyles = makeStyles(() => ({
 function Livechat() {
   const classes = useStyles();
   const userInfo = useContext(authContext);
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8500");
+  }, []);
+
+  useEffect(() => {
+    //console.log(userInfo.user._id);
+    userInfo.user._id && socket.current.emit("addUser", userInfo.user._id);
+    socket.current.on("getUsers", (users) => {
+      console.log(users);
+    });
+  }, [userInfo.user._id]);
+
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -48,8 +63,8 @@ function Livechat() {
         <div>Create memorable talks</div>
       </div>
       <div className={classes.main}>
-        <MainChat currentUser={userInfo.user} />
-        <MainNotifications currentUser={userInfo.user} />
+        <MainChat socket={socket} currentUser={userInfo.user} />
+        <MainNotifications socket={socket} currentUser={userInfo.user} />
       </div>
     </div>
   );
