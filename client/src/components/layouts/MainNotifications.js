@@ -7,6 +7,7 @@ const useStyles = makeStyles({
   },
   noti: {
     width: "40vw",
+    overflow: "hidden",
   },
 
   pvList: {
