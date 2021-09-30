@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => ({
   },
   chatList: {
     height: "auto",
+    overflow: "hidden",
   },
   pvnav: {
     height: "auto",
@@ -73,7 +74,7 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
 }));
-function MainChat({ currentUser }) {
+function MainChat({ socket, currentUser }) {
   const classes = useStyles();
   const [conversationList, setConversationList] = useState([]);
   const [currentChat, setcurrentChat] = useState(null);
@@ -136,7 +137,7 @@ function MainChat({ currentUser }) {
           <ul className={classes.pvList}>
             {conversationList?.map((item) => (
               <div key={item._id} onClick={() => setcurrentChat(item)}>
-                <li>
+                <li key={item._id}>
                   <Conversation conversation={item} currentUser={currentUser} />
                 </li>
               </div>
@@ -144,7 +145,11 @@ function MainChat({ currentUser }) {
           </ul>
         </div>
       </div>
-      <MainMessages currentUser={currentUser} conversation={currentChat} />
+      <MainMessages
+        socket={socket}
+        currentUser={currentUser}
+        conversation={currentChat}
+      />
     </>
   );
 }
