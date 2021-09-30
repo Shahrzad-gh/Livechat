@@ -47,6 +47,8 @@ const useStyles = makeStyles({
     borderRadius: "5px",
     backgroundColor: "#3b6e68",
     overflow: "scroll",
+  },
+  messageStyle: {
     display: "flex",
     flexDirection: "column",
   },
@@ -65,11 +67,28 @@ const useStyles = makeStyles({
   },
 });
 
-function MainMessages({ currentUser, conversation }) {
+function MainMessages({ socket, currentUser, conversation }) {
   const classes = useStyles();
   const [messages, setMessages] = useState([]);
+  const [araivalMessages, setAraivalMessages] = useState(null);
   const [text, setText] = useState("");
   const scrollRef = useRef();
+
+  useEffect(() => {
+    socket.current?.on("getMessage", (data) => {
+      setAraivalMessages({
+        sender: data.senderId,
+        text: data.text,
+        creatAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    araivalMessages &&
+      conversation?.members.includes(araivalMessages.sender) &&
+      setMessages((prev) => [...prev, araivalMessages]);
+  }, [araivalMessages, conversation]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -83,6 +102,8 @@ function MainMessages({ currentUser, conversation }) {
     getMessages();
   }, [conversation?._id]);
 
+  console.log(messages);
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
@@ -91,6 +112,18 @@ function MainMessages({ currentUser, conversation }) {
       senderId: currentUser._id,
       text,
     };
+
+    const receiverId = conversation.members.find(
+      (member) => member !== currentUser._id
+    );
+    console.log(currentUser._id, receiverId, text);
+
+    socket.current.emit("sendMessage", {
+      senderId: currentUser._id,
+      receiverId,
+      text,
+    });
+
     try {
       const res = await axios.post("/addmessage", data);
       setMessages([...messages, res.data.message]);
@@ -145,13 +178,9 @@ function MainMessages({ currentUser, conversation }) {
       )}
       <div className={classes.pvMess}>
         {messages?.map((item) => (
-          // <div ref={scrollRef}>
-          <Message
-            key={item._id}
-            message={item}
-            own={currentUser._id === item.senderId}
-          />
-          // </div>
+          <div className={classes.messageStyle} ref={scrollRef} key={item._id}>
+            <Message message={item} own={currentUser._id === item.senderId} />
+          </div>
         ))}
       </div>
       <div className={classes.messBox}>
