@@ -1,12 +1,12 @@
-const io = require("socket.io")(8500, {
+const io = require("socket.io")(8900, {
   cors: { origin: "http://localhost:3000" },
 });
 
 let users = [];
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+  // !users.some((user) => user.userId === userId) &&
+  users.push({ userId, socketId });
 };
 
 const removeUser = (socketId) => {
@@ -14,6 +14,7 @@ const removeUser = (socketId) => {
 };
 
 const getUser = (userId) => {
+  console.log(users);
   return users.find((user) => user.userId === userId);
 };
 
@@ -30,7 +31,9 @@ io.on("connection", (socket) => {
   //send and get message
   socket.on("sendMessage", ({ senderId, receiverId, text }) => {
     const user = getUser(receiverId);
-    io.to(user.socketId).emit("getMessage", { senderId, text });
+    console.log("user Reciver", user);
+    console.log("sender", senderId + "  receiver:", receiverId, "text", text);
+    io.to(user?.socketId).emit("getMessage", { senderId, text });
   });
   //when disconnet
   socket.on("disconnect", () => {
