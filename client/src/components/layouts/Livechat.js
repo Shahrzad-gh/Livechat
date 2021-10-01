@@ -45,7 +45,7 @@ function Livechat() {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8500");
+    socket.current = io("ws://localhost:8900");
   }, []);
 
   useEffect(() => {

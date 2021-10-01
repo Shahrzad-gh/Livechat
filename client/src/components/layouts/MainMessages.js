@@ -81,6 +81,7 @@ function MainMessages({ socket, currentUser, conversation }) {
         text: data.text,
         creatAt: Date.now(),
       });
+      console.log("get", data);
     });
   }, []);
 
@@ -89,6 +90,8 @@ function MainMessages({ socket, currentUser, conversation }) {
       conversation?.members.includes(araivalMessages.sender) &&
       setMessages((prev) => [...prev, araivalMessages]);
   }, [araivalMessages, conversation]);
+
+  console.log("arraive", araivalMessages);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -102,8 +105,6 @@ function MainMessages({ socket, currentUser, conversation }) {
     getMessages();
   }, [conversation?._id]);
 
-  console.log(messages);
-
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
@@ -116,10 +117,15 @@ function MainMessages({ socket, currentUser, conversation }) {
     const receiverId = conversation.members.find(
       (member) => member !== currentUser._id
     );
-    console.log(currentUser._id, receiverId, text);
-
+    console.log(
+      "sender",
+      currentUser._id + "receiver:",
+      receiverId,
+      "text",
+      text
+    );
     socket.current.emit("sendMessage", {
-      senderId: currentUser._id,
+      senderId: currentUser?._id,
       receiverId,
       text,
     });
@@ -177,8 +183,8 @@ function MainMessages({ socket, currentUser, conversation }) {
         <div className={classes.pvnav}>Start New chat</div>
       )}
       <div className={classes.pvMess}>
-        {messages?.map((item) => (
-          <div className={classes.messageStyle} ref={scrollRef} key={item._id}>
+        {messages?.map((item, index) => (
+          <div className={classes.messageStyle} ref={scrollRef} key={index}>
             <Message message={item} own={currentUser._id === item.senderId} />
           </div>
         ))}
